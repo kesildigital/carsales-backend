@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "firebase emulators:start",
+    "deploy:functions": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase": "^10.2.0"
+  }
+}
