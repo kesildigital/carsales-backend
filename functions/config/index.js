@@ -1,13 +1,12 @@
 const firebaseConfigWeb = {
-  apiKey: 'AIzaSyCisJzY9SKgIa7mgLYinOoJvaAjFLB8FIk',
-  authDomain: 'gohandypro-a8af9.firebaseapp.com',
-  databaseURL: 'https://gohandypro-a8af9-default-rtdb.firebaseio.com',
-  projectId: 'gohandypro-a8af9',
-  storageBucket: 'gohandypro-a8af9.appspot.com',
-  messagingSenderId: '209257459112',
-  appId: '1:209257459112:web:2c7b96c2c0b5c0d364819d',
-  measurementId: 'G-BY15HX0EL9'
-}
+  apiKey: 'AIzaSyDRb66QgtAbZC67ZrCKu_gthQHEK1BX2tE',
+  authDomain: 'mechanic-dev-369a5.firebaseapp.com',
+  projectId: 'mechanic-dev-369a5',
+  storageBucket: 'mechanic-dev-369a5.appspot.com',
+  messagingSenderId: '758393483976',
+  appId: '1:758393483976:web:0af87b86a39d73240b2bfd',
+  measurementId: 'G-WDSFSD6KP7'
+};
 
 const openAI = {
   apiKey: process.env.OPEN_AI_API_KEY,
