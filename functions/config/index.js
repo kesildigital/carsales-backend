@@ -1,11 +1,11 @@
 const firebaseConfigWeb = {
-  apiKey: 'AIzaSyDRb66QgtAbZC67ZrCKu_gthQHEK1BX2tE',
-  authDomain: 'mechanic-dev-369a5.firebaseapp.com',
-  projectId: 'mechanic-dev-369a5',
-  storageBucket: 'mechanic-dev-369a5.appspot.com',
-  messagingSenderId: '758393483976',
-  appId: '1:758393483976:web:0af87b86a39d73240b2bfd',
-  measurementId: 'G-WDSFSD6KP7'
+  apiKey: 'AIzaSyAN_GhnlypjusK6oEnn10US9KKyjR16QWc',
+  authDomain: 'carsales-dev-6350a.firebaseapp.com',
+  projectId: 'carsales-dev-6350a',
+  storageBucket: 'carsales-dev-6350a.appspot.com',
+  messagingSenderId: '943837398663',
+  appId: '1:943837398663:web:032f41859605c47b2b5a22',
+  measurementId: 'G-6THJCX68VL'
 };
 
 const openAI = {
