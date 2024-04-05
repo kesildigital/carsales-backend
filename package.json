@@ -4,6 +4,7 @@
     "deploy:functions": "firebase deploy --only functions"
   },
   "dependencies": {
-    "firebase": "^10.2.0"
+    "firebase": "^10.2.0",
+    "prettier": "^3.2.5"
   }
 }
