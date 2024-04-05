@@ -11,6 +11,6 @@ module.exports = app => {
   app.use('/', mainRouter)
   app.get('/echotest', (req, res) => {
     console.log('ECHOTEST!')
-    res.send('HandymanApp API funcionando!')
+    res.send('Vroomit API funcionando!')
   })
 }

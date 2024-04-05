@@ -1,6 +1,161 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /inspection_report_base/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /admin_verification_identity/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /identity_verifications/{parent}/admin_identity_verifications/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /{path=**}/admin_identity_verifications/{document} {
+      allow read: if true;
+    }
+
+
+    match /business_plan_leads/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /users/{parent}/document_identity_ocr/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if request.auth.uid == parent;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /verification-phone/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /new_brands_models/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /inspection_reports/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /publication_stats/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /publication_stats/{parent}/stats_details/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /{path=**}/stats_details/{document} {
+      allow read: if true;
+    }
+
+
+    match /inspection_report/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /identity_verifications/{document} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /promo_codes/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /users/{parent}/promo_codes_applied/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if request.auth.uid == parent;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /car_brands/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if false;
+    }
+
+    match /car_brands/{parent}/car_models/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if false;
+    }
+
+    match /{path=**}/car_models/{document} {
+      allow read: if true;
+    }
+
+
+    match /publications/{document} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /users/{parent}/publications_history/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if request.auth.uid == parent;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /revision_report/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if false;
+    }
+
+    match /version_control/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
     match /{document=**} {
       allow read, write: if request.auth.token.email.matches("firebase@flutterflow.io");
     }
@@ -9,21 +164,21 @@ service cloud.firestore {
       allow create: if true;
       allow read: if true;
       allow write: if request.auth != null;
-      allow delete: if request.auth != null;
+      allow delete: if request.auth.uid == document;
     }
 
     match /chat_messages/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if true;
       allow delete: if request.auth != null;
     }
 
     match /users/{parent}/reviews/{document} {
       allow create: if request.auth != null;
       allow read: if true;
-      allow write: if request.auth.uid == parent;
-      allow delete: if request.auth != null;
+      allow write: if request.auth != null;
+      allow delete: if request.auth.uid == get(/databases/$(database)/documents/users/$(parent)).data.uid;
     }
 
     match /{path=**}/reviews/{document} {
@@ -34,29 +189,29 @@ service cloud.firestore {
     match /logger/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /reset-pass/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /auth-pass/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /users/{parent}/location/{document} {
       allow create: if request.auth != null;
       allow read: if true;
       allow write: if request.auth.uid == parent;
-      allow delete: if false;
+      allow delete: if request.auth.uid == get(/databases/$(database)/documents/users/$(parent)).data.uid;
     }
 
     match /{path=**}/location/{document} {
@@ -66,7 +221,7 @@ service cloud.firestore {
 
     match /chats/{document} {
       allow create: if true;
-      allow read: if /databases/$(database)/documents/users/$(request.auth.uid) in resource.data.users;
+      allow read: if true;
       allow write: if true;
       allow delete: if true;
     }
@@ -74,22 +229,22 @@ service cloud.firestore {
     match /subscribe/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /subscriptions/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /users/{parent}/location_work/{document} {
       allow create: if request.auth != null;
       allow read: if true;
       allow write: if request.auth.uid == parent;
-      allow delete: if false;
+      allow delete: if request.auth.uid == parent;
     }
 
     match /{path=**}/location_work/{document} {
@@ -101,7 +256,7 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow read: if true;
       allow write: if request.auth.uid == parent;
-      allow delete: if false;
+      allow delete: if request.auth.uid == parent;
     }
 
     match /{path=**}/abilities/{document} {
@@ -126,15 +281,15 @@ service cloud.firestore {
     match /benefits_plan/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
+      allow write: if true;
       allow delete: if false;
     }
 
     match /services/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /pending_tasks/{document} {
@@ -147,22 +302,22 @@ service cloud.firestore {
     match /review_requests/{document} {
       allow create: if request.auth != null;
       allow read: if true;
-      allow write: if false;
+      allow write: if true;
       allow delete: if false;
     }
 
     match /verification-email-register/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /users/{parent}/offered_service/{document} {
       allow create: if request.auth != null;
       allow read: if true;
       allow write: if request.auth.uid == parent;
-      allow delete: if false;
+      allow delete: if request.auth.uid == get(/databases/$(database)/documents/users/$(parent)).data.uid;
     }
 
     match /{path=**}/offered_service/{document} {
@@ -173,8 +328,8 @@ service cloud.firestore {
     match /notifications_activities/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
-      allow delete: if false;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /available_service/{document} {
@@ -185,7 +340,7 @@ service cloud.firestore {
     }
 
     match /selected_taskerAI/{document} {
-      allow create: if request.auth != null;
+      allow create: if true;
       allow read: if true;
       allow write: if false;
       allow delete: if false;

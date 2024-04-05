@@ -38,7 +38,21 @@ const updatePassword = async (req, res) => {
   }
 }
 
+const deleteAuthUser = async (req, res) => {
+  const { uid } = req.body
+
+  try {
+    await adminAuth().deleteUser(uid)
+
+    res.status(200).json({ message: 'Usuario eliminado con exito' })
+  } catch (error) {
+    logger.error(error)
+    res.status(500).json({ error })
+  }
+}
+
 module.exports = {
   login,
-  updatePassword
+  updatePassword,
+  deleteAuthUser
 }
