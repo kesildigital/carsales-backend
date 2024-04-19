@@ -3,10 +3,10 @@ const { logger } = require('firebase-functions')
 const httpService = require('../../services/http.service')
 
 // Initialize Firebase
-const accountId = 'AC268e608134d192748efae6391170a9d4'
-const fromPhone = '+12694480488'
-const twilioAPIToken = 'QUMyNjhlNjA4MTM0ZDE5Mjc0OGVmYWU2MzkxMTcwYTlkNDo1NTc5NDdjZjEwMzQxN2FiMTE1ZTAwMDE3NjM0NGRkMQ=='
+
 const sendSms = async (req, res) => {
+  const accountId = 'AC268e608134d192748efae6391170a9d4'
+  const fromPhone = '+12694480488'
   logger.log(req.body)
   logger.log(req.headers)
 
@@ -23,7 +23,7 @@ const sendSms = async (req, res) => {
       postData: params,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${twilioAPIToken}`
+        Authorization: `Basic QUMyNjhlNjA4MTM0ZDE5Mjc0OGVmYWU2MzkxMTcwYTlkNDo1NTc5NDdjZjEwMzQxN2FiMTE1ZTAwMDE3NjM0NGRkMQ==`
       }
     })
 
