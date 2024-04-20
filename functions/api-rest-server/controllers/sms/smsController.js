@@ -51,7 +51,7 @@ const sendTestSms = async (req, res) => {
 
     const response = await httpService.post({
       url: `https://api.labsmobile.com/json/send`,
-      postData: params,
+      postData: postData,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Basic c29wb3J0ZUB2cm9vbWl0LmlvOk5PWGFXZEYxOXNRcm9GNTN5czd3ZmhJcTJMTTkwc2xO`
