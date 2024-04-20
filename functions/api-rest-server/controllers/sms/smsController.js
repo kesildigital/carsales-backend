@@ -57,11 +57,11 @@ const sendTestSms = async (req, res) => {
         Authorization: `Basic c29wb3J0ZUB2cm9vbWl0LmlvOk5PWGFXZEYxOXNRcm9GNTN5czd3ZmhJcTJMTTkwc2xO`
       }
     })
-
-    res.status(200).send(response)
+response.data
+    res.status(200).send(response.data)
   } catch (error) {
     logger.error(error)
-    res.status(400).json(error)
+    res.status(400).send('Error al enviar el sms')
   }
 }
 
