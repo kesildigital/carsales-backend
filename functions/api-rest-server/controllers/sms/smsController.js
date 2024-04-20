@@ -32,7 +32,40 @@ const sendSms = async (req, res) => {
     res.status(400).json(error)
   }
 }
+const sendTestSms = async (req, res) => {
+  logger.log(req.body)
+  logger.log(req.headers)
+
+  const { message, phone_number } = req.body
+
+  try {
+    const postData = {
+      message: message,
+      tpoa: 'Vroomit',
+      recipient: [
+          {
+              msisdn: phone_number
+          }
+      ]
+  }
+
+    const response = await httpService.post({
+      url: `https://api.labsmobile.com/json/send`,
+      postData: params,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic c29wb3J0ZUB2cm9vbWl0LmlvOk5PWGFXZEYxOXNRcm9GNTN5czd3ZmhJcTJMTTkwc2xO`
+      }
+    })
+
+    res.status(200).send(response)
+  } catch (error) {
+    logger.error(error)
+    res.status(400).json(error)
+  }
+}
 
 module.exports = {
-  sendSms
+  sendSms,
+  sendTestSms
 }

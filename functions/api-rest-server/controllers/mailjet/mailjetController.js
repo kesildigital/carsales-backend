@@ -7,14 +7,14 @@ const sendEmail = async (req, res) => {
     logger.log(req.body)
     logger.log(req.headers)
   
-    const { To, TemplateId, Subject, ObjVariables } = req.body
+    const { To, TemplateId, Subject, variables } = req.body
     try {
       const postData = {
         Messages: [
           {
             From: {
-              Email: "no-responder@vroomit.io",
-              Name: "Vroomit"
+              Email: 'no-responder@vroomit.io',
+              Name: 'Vroomit'
             },
             To: [
               {
@@ -24,7 +24,7 @@ const sendEmail = async (req, res) => {
             TemplateID: TemplateId,
             TemplateLanguage: true,
             Subject: Subject,
-            Variables: ObjVariables
+            Variables: variables
           }
         ]
       }
@@ -38,7 +38,7 @@ const sendEmail = async (req, res) => {
         }
       })
   
-      res.status(200).send('Correo enviado correctamente')
+      res.status(200).send(response.data)
     } catch (error) {
         logger.error(error)
         res.status(400).send('Error al enviar el correo')
