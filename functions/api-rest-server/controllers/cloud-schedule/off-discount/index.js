@@ -1,5 +1,6 @@
 const { logger } = require('firebase-functions')
 const admin = require('firebase-admin');
+const httpService = require('../../../services/http.service')
 
 async function sendEmail(correo,userInfo) {
     try {
@@ -77,12 +78,12 @@ async function sendEmail(correo,userInfo) {
     // Enviar correo electrónico al usuario con la información
     const result = await sendEmail(correo, userInfo);
       logger.log('Correos electrónicos enviados correctamente');
-      res.status(200).send(results);
+      res.status(200).send(result);
     } catch (error) {
       logger.error(error);
       res.status(400).send('Error al enviar los correos electrónicos');
     }
-  };
+};
 
 module.exports={
     enviarEmails
