@@ -4,68 +4,42 @@ const httpService = require('../../services/http.service')
 
 // Initialize Firebase
 
+function cleanPhone(phone) {
+  phone = phone.replace('580412', '58412')
+  phone = phone.replace('580414', '58414')
+  phone = phone.replace('580424', '58424')
+  phone = phone.replace('580416', '58416')
+  phone = phone.replace('580426', '58426')
+  return phone
+}
+
 const sendSms = async (req, res) => {
-  const fromPhone = '+12694480488'
   logger.log(req.body)
   logger.log(req.headers)
 
   const { To, Body } = req.body
 
   try {
-    const params = new URLSearchParams()
-    params.append('From', fromPhone)
-    params.append('Body', Body)
-    params.append('To', To)
-
     const response = await httpService.post({
-      url: `https://api.twilio.com/2010-04-01/Accounts/AC268e608134d192748efae6391170a9d4/Messages.json`,
-      postData: params,
+      url: `https://dashboard.wausms.com/Api/rest/message`,
+      postData: {
+        to: [cleanPhone(To)],
+        text: Body,
+        from: 'Vroomit',
+        coding: 'utf-16'
+      },
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic QUMyNjhlNjA4MTM0ZDE5Mjc0OGVmYWU2MzkxMTcwYTlkNDo1NTc5NDdjZjEwMzQxN2FiMTE1ZTAwMDE3NjM0NGRkMQ==`
+        Authorization: `Basic a2VzaWxkaWdpdGFsZ21hOkNCcm41OCYn`
       }
     })
 
-    res.status(200).send(response)
+    res.status(200).send(response.data)
   } catch (error) {
     logger.error(error)
     res.status(400).json(error)
   }
 }
-const sendTestSms = async (req, res) => {
-  logger.log(req.body)
-  logger.log(req.headers)
-
-  const { message, phone_number } = req.body
-
-  try {
-    const postData = {
-      message: message,
-      tpoa: 'Vroomit',
-      recipient: [
-          {
-              msisdn: phone_number
-          }
-      ]
-  }
-
-    const response = await httpService.post({
-      url: `https://api.labsmobile.com/json/send`,
-      postData: postData,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic c29wb3J0ZUB2cm9vbWl0LmlvOk5PWGFXZEYxOXNRcm9GNTN5czd3ZmhJcTJMTTkwc2xO`
-      }
-    })
-response.data
-    res.status(200).send(response.data)
-  } catch (error) {
-    logger.error(error)
-    res.status(400).send('Error al enviar el sms')
-  }
-}
 
 module.exports = {
-  sendSms,
-  sendTestSms
+  sendSms
 }
