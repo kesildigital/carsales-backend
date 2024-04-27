@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "vroomit-prod",
-    "vroomit-prod": "vroomit-prod"
+    "default": "carsales-dev-6350a"
   },
   "targets": {},
   "etags": {}
