@@ -6,6 +6,7 @@ const smsRouter = require('./sms.router')
 const mailjetRouter = require('./mailjet.router')
 const exchangeRateRouter = require('./exchangeRate.router')
 const cloudScheduleRouter = require('./cloudSchedule.router')
+const pushNotificationsRouter = require('./pushNotifications.router')
 
 mainRouter.use('/auth', authRouter)
 mainRouter.use('/manual-trigger', manualTriggersRouter)
@@ -14,6 +15,7 @@ mainRouter.use('/sms', smsRouter)
 mainRouter.use('/mailjet', mailjetRouter)
 mainRouter.use('/exchangeRate', exchangeRateRouter)
 mainRouter.use('/cloud-schedule', cloudScheduleRouter)
+mainRouter.use('/push-notifications', pushNotificationsRouter)
 
 module.exports = app => {
   app.use('/', mainRouter)

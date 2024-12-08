@@ -1,17 +1,7 @@
 const { logger } = require('firebase-functions')
 
-const httpService = require('../../services/http.service')
-
-// Initialize Firebase
-
-function cleanPhone(phone) {
-  phone = phone.replace('580412', '58412')
-  phone = phone.replace('580414', '58414')
-  phone = phone.replace('580424', '58424')
-  phone = phone.replace('580416', '58416')
-  phone = phone.replace('580426', '58426')
-  return phone
-}
+const { SmsProviders, sendSms: sendSmsService } = require('../../../libs/sms/sms')
+const { createDocument, get } = require('../../../libs/firebase-api-helpers')
 
 const sendSms = async (req, res) => {
   logger.log(req.body)
@@ -20,20 +10,41 @@ const sendSms = async (req, res) => {
   const { To, Body } = req.body
 
   try {
-    const response = await httpService.post({
-      url: `https://dashboard.wausms.com/Api/rest/message`,
-      postData: {
-        to: [cleanPhone(To)],
-        text: Body,
-        from: 'Vroomit',
-        coding: 'utf-16'
-      },
-      headers: {
-        Authorization: `Basic a2VzaWxkaWdpdGFsZ21hOkNCcm41OCYn`
+    const lastFiveSms = await get({
+      collection: 'sms_test',
+      limit: 5,
+      orderBy: { field: 'date', direction: 'desc' }
+    })
+    const lastMsg = lastFiveSms[0]?.data() ?? {}
+    const lastFiveSmsAreWau = lastFiveSms.every(sms => sms.data().provider === SmsProviders.WAU_SMS)
+    const lastFiveSmsAreMesaje = lastFiveSms.every(sms => sms.data().provider === SmsProviders.MENSAJE_SMS)
+
+    let provider = lastMsg.provider ?? SmsProviders.MENSAJE_SMS
+
+    if (lastMsg.provider === SmsProviders.WAU_SMS && lastFiveSmsAreWau) {
+      provider = SmsProviders.MENSAJE_SMS
+    }
+
+    if (lastMsg.provider === SmsProviders.MENSAJE_SMS && lastFiveSmsAreMesaje) {
+      provider = SmsProviders.WAU_SMS
+    }
+
+    const response = await sendSmsService({ phone: To, message: Body, provider })
+    const wasSuccessful = false
+
+    await createDocument({
+      collection: 'sms_test',
+      doc: {
+        provider,
+        result: wasSuccessful ? 'success' : 'error',
+        error_message: wasSuccessful ? '' : response?.message,
+        phone: To,
+        message: Body,
+        date: new Date()
       }
     })
 
-    res.status(200).send(response.data)
+    res.status(response.code).send({ message: response.message })
   } catch (error) {
     logger.error(error)
     res.status(400).json(error)
